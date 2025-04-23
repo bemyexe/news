@@ -5,4 +5,10 @@
   margin: 0;
   padding: 0;
   border: 0;
+  list-style: none;
+}
+
+body {
+  background: var(--bg-color);
+  padding: 20px;
 }
