@@ -33,7 +33,7 @@ export const NewsStats = ({DP, REACH, SENT, TRAFFIC}: Props) => {
         <ul className="news-stats__traffic-list">
           <div>Top Traffic:</div>
           {TRAFFIC.map((item) => (
-            <li className="news-stats__traffic-item">
+            <li key={item.value} className="news-stats__traffic-item">
               <span>{getAbbreviation(item.value)}</span>
               <span className="white">{toPercentage(item.count)}</span>
             </li>

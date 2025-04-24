@@ -17,26 +17,6 @@
     color: var(--white);
   }
 
-  .news-tags-container {
-    display: flex;
-    align-items: center;
-
-    .news-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-
-      .news-tags__item {
-        color: var(--gray);
-        background: transparent;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        margin: 0;
-      }
-    }
-  }
-
   .news-original-source-button {
     align-self: flex-start;
   }
