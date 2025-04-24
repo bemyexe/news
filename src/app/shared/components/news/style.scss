@@ -13,65 +13,6 @@
     color: var(--primary-color);
   }
 
-  .news-stats {
-    color: var(--white);
-    display: flex;
-    justify-content: space-between;
-
-    .news-stats__left {
-      display: flex;
-      gap: 15px;
-      color: var(--gray);
-      .news-stats__left-date {
-        display: flex;
-        gap: 5px;
-      }
-
-      .news-stats__left-reach {
-        display: flex;
-        gap: 5px;
-      }
-
-      .news-stats__traffic-list {
-        display: flex;
-        gap: 5px;
-
-        .news-stats__traffic-item {
-          display: flex;
-          gap: 5px;
-        }
-      }
-    }
-
-    .news-stats__right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      .news-sentiment {
-        margin: 0;
-      }
-    }
-  }
-
-  .news-info {
-    display: flex;
-    gap: 20px;
-    color: var(--gray);
-
-    .news-info__block {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-
-      .news-info__block-link {
-        color: var(--primary-color);
-        cursor: pointer;
-        border-bottom: 2px solid var(--primary-color);
-      }
-    }
-  }
-
   .news-content {
     color: var(--white);
   }

@@ -1,24 +1,13 @@
 import {ReactNode, useState} from 'react';
-import ReactCountryFlag from 'react-country-flag';
-import {
-  BorderOutlined,
-  CaretDownOutlined,
-  GlobalOutlined,
-  ReadOutlined,
-  TeamOutlined,
-} from '@ant-design/icons';
+import {CaretDownOutlined} from '@ant-design/icons';
 import {Button, Tag} from 'antd';
-import {format} from 'date-fns';
 
 import {IData_SnippetNews} from '../../../../@types/news.dto';
-import {getAbbreviation, toPercentage} from '../../../utils';
+
+import {NewsInfo} from './news-info';
+import {NewsStats} from './news-stats';
 
 import './style.scss';
-
-const SANTIMENT_TAG: Record<string, string> = {
-  positive: 'lime',
-  negative: 'red',
-};
 
 const DEFAULT_TAG_ITEAMS_COUNT = 6;
 
@@ -67,61 +56,15 @@ export const News = ({
 
   return (
     <div className="news-container">
-      <aside className="news-stats">
-        <div className="news-stats__left">
-          <div className="news-stats__left-date">
-            <span className="white">{format(DP, 'd')}</span>
-            <span>{format(DP, 'MMM yyyy')}</span>
-          </div>
-          <div className="news-stats__left-reach">
-            <span className="white">{REACH}K</span>
-            <span>Reach</span>
-          </div>
-
-          <ul className="news-stats__traffic-list">
-            <div>Top Traffic:</div>
-            {TRAFFIC.map((item) => (
-              <li className="news-stats__traffic-item">
-                <span>{getAbbreviation(item.value)}</span>
-                <span className="white">{toPercentage(item.count)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="news-stats__right">
-          <Tag color={SANTIMENT_TAG[SENT]} className="news-sentiment">
-            {SENT}
-          </Tag>
-          <BorderOutlined />
-          <BorderOutlined />
-        </div>
-      </aside>
+      <NewsStats DP={DP} REACH={REACH} SENT={SENT} TRAFFIC={TRAFFIC} />
       <h3 className="news-title">{TI}</h3>
-      <div className="news-info">
-        <div className="news-info__block">
-          <GlobalOutlined />
-          <a
-            href={'https://' + DOM}
-            target="_blank"
-            className="news-info__block-link">
-            {DOM}
-          </a>
-        </div>
-        <div className="news-info__block">
-          <ReactCountryFlag countryCode={CNTR_CODE} svg />
-          <span>{CNTR}</span>
-        </div>
-        <div className="news-info__block">
-          <ReadOutlined />
-          <span>{LANG[0].toUpperCase() + LANG.slice(1)}</span>
-        </div>
-        {AU.length > 0 && (
-          <div className="news-info__block">
-            <TeamOutlined />
-            <span>{AU.join(', ')}</span>
-          </div>
-        )}
-      </div>
+      <NewsInfo
+        CNTR={CNTR}
+        CNTR_CODE={CNTR_CODE}
+        DOM={DOM}
+        LANG={LANG}
+        AU={AU}
+      />
       <div className="news-content">
         {content}
         <Button

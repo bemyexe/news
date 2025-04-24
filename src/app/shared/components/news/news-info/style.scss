@@ -1,0 +1,17 @@
+.news-info {
+  display: flex;
+  gap: 20px;
+  color: var(--gray);
+
+  .news-info__block {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .news-info__block-link {
+      color: var(--primary-color);
+      cursor: pointer;
+      border-bottom: 2px solid var(--primary-color);
+    }
+  }
+}
