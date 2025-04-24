@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {ReactNode, useState} from 'react';
 import ReactCountryFlag from 'react-country-flag';
 import {
   BorderOutlined,
@@ -23,7 +23,6 @@ const SANTIMENT_TAG: Record<string, string> = {
 const DEFAULT_TAG_ITEAMS_COUNT = 6;
 
 export const News = ({
-  ID,
   TI,
   AB,
   URL,
@@ -37,15 +36,35 @@ export const News = ({
   CNTR_CODE,
   SENT,
   TRAFFIC,
-  FAV,
   HIGHLIGHTS,
 }: IData_SnippetNews) => {
   const [isABExpanded, setIsABExpanded] = useState(false);
   const [isTagItemsExpanded, setIsTagItemsExpanded] = useState(false);
-  const content = isABExpanded ? AB : HIGHLIGHTS;
+
+  const parseHighlight = (text: string): ReactNode => {
+    const parts = text.split(/(<kw>.*?<\/kw>)/g);
+
+    return parts.map((part, index) => {
+      if (part.startsWith('<kw>') && part.endsWith('</kw>')) {
+        const keyword = part.replace(/<\/?kw>/g, '');
+        return (
+          <Tag color="blue" key={index}>
+            {keyword}
+          </Tag>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
+  const content = isABExpanded
+    ? AB
+    : HIGHLIGHTS.map((highlight) => parseHighlight(highlight));
+
   const filterKW = isTagItemsExpanded
     ? KW
     : KW.slice(0, DEFAULT_TAG_ITEAMS_COUNT);
+
   return (
     <div className="news-container">
       <aside className="news-stats">
@@ -81,11 +100,12 @@ export const News = ({
       <div className="news-info">
         <div className="news-info__block">
           <GlobalOutlined />
-          <span className="news-info__block-link">
-            <a href={'https://' + DOM} target="_blank">
-              {DOM}
-            </a>
-          </span>
+          <a
+            href={'https://' + DOM}
+            target="_blank"
+            className="news-info__block-link">
+            {DOM}
+          </a>
         </div>
         <div className="news-info__block">
           <ReactCountryFlag countryCode={CNTR_CODE} svg />
@@ -102,19 +122,21 @@ export const News = ({
           </div>
         )}
       </div>
-      <div className="news-content">{content}</div>
-      <Button
-        color="primary"
-        variant="text"
-        onClick={() => setIsABExpanded(!isABExpanded)}>
-        {isABExpanded ? 'Hide' : 'Show more '}
-        <CaretDownOutlined className={isABExpanded ? 'expand-arrow' : ''} />
-      </Button>
+      <div className="news-content">
+        {content}
+        <Button
+          color="primary"
+          variant="text"
+          onClick={() => setIsABExpanded(!isABExpanded)}>
+          {isABExpanded ? 'Hide' : 'Show more '}
+          <CaretDownOutlined className={isABExpanded ? 'expand-arrow' : ''} />
+        </Button>
+      </div>
       <div className="news-tags-container">
         {KW.length > 0 && (
           <ul className="news-tags">
             {filterKW.map(({value, count}) => (
-              <li>
+              <li key={value}>
                 <Tag className="news-tags__item">
                   <span>{value}</span>
                   <span className="white">{count}</span>
@@ -134,6 +156,14 @@ export const News = ({
           </Button>
         )}
       </div>
+      <Button
+        color="primary"
+        variant="text"
+        className="news-original-source-button">
+        <a href={URL} target="_blank">
+          Original Source
+        </a>
+      </Button>
     </div>
   );
 };
