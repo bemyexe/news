@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 15px;
   max-width: 800px;
-  height: 400px;
+  min-height: 400px;
   width: 100%;
   border: 1px solid var(--gray);
   border-radius: 8px;
@@ -71,8 +71,36 @@
       }
     }
   }
+
+  .news-content {
+    color: var(--white);
+  }
+
+  .news-tags-container {
+    display: flex;
+    align-items: center;
+
+    .news-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+
+      .news-tags__item {
+        color: var(--gray);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 0;
+      }
+    }
+  }
 }
 
 .white {
   color: var(--white);
+}
+
+.expand-arrow {
+  transform: rotate(180deg);
 }

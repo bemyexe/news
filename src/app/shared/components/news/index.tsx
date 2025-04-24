@@ -1,11 +1,13 @@
+import {useState} from 'react';
 import ReactCountryFlag from 'react-country-flag';
 import {
   BorderOutlined,
+  CaretDownOutlined,
   GlobalOutlined,
   ReadOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import {Tag} from 'antd';
+import {Button, Tag} from 'antd';
 import {format} from 'date-fns';
 
 import {IData_SnippetNews} from '../../../../@types/news.dto';
@@ -17,6 +19,8 @@ const SANTIMENT_TAG: Record<string, string> = {
   positive: 'lime',
   negative: 'red',
 };
+
+const DEFAULT_TAG_ITEAMS_COUNT = 6;
 
 export const News = ({
   ID,
@@ -36,6 +40,12 @@ export const News = ({
   FAV,
   HIGHLIGHTS,
 }: IData_SnippetNews) => {
+  const [isABExpanded, setIsABExpanded] = useState(false);
+  const [isTagItemsExpanded, setIsTagItemsExpanded] = useState(false);
+  const content = isABExpanded ? AB : HIGHLIGHTS;
+  const filterKW = isTagItemsExpanded
+    ? KW
+    : KW.slice(0, DEFAULT_TAG_ITEAMS_COUNT);
   return (
     <div className="news-container">
       <aside className="news-stats">
@@ -71,7 +81,11 @@ export const News = ({
       <div className="news-info">
         <div className="news-info__block">
           <GlobalOutlined />
-          <span className="news-info__block-link">{DOM}</span>
+          <span className="news-info__block-link">
+            <a href={'https://' + DOM} target="_blank">
+              {DOM}
+            </a>
+          </span>
         </div>
         <div className="news-info__block">
           <ReactCountryFlag countryCode={CNTR_CODE} svg />
@@ -86,6 +100,38 @@ export const News = ({
             <TeamOutlined />
             <span>{AU.join(', ')}</span>
           </div>
+        )}
+      </div>
+      <div className="news-content">{content}</div>
+      <Button
+        color="primary"
+        variant="text"
+        onClick={() => setIsABExpanded(!isABExpanded)}>
+        {isABExpanded ? 'Hide' : 'Show more '}
+        <CaretDownOutlined className={isABExpanded ? 'expand-arrow' : ''} />
+      </Button>
+      <div className="news-tags-container">
+        {KW.length > 0 && (
+          <ul className="news-tags">
+            {filterKW.map(({value, count}) => (
+              <li>
+                <Tag className="news-tags__item">
+                  <span>{value}</span>
+                  <span className="white">{count}</span>
+                </Tag>
+              </li>
+            ))}
+          </ul>
+        )}
+        {KW.length > DEFAULT_TAG_ITEAMS_COUNT && (
+          <Button
+            color="primary"
+            variant="text"
+            onClick={() => setIsTagItemsExpanded(!isTagItemsExpanded)}>
+            {isTagItemsExpanded
+              ? 'Show Less'
+              : `Show All + ${KW.length - DEFAULT_TAG_ITEAMS_COUNT}`}
+          </Button>
         )}
       </div>
     </div>
