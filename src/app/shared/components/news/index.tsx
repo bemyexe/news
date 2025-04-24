@@ -32,11 +32,11 @@ export const News = ({
 
   const content = isABExpanded
     ? AB
-    : HIGHLIGHTS.map((highlight) => {
+    : HIGHLIGHTS.map((highlight, index) => {
         const cleanText = highlight.replace(/<\/?kw>/g, '');
         return (
           <Highlighter
-            key={highlight}
+            key={index}
             searchWords={KW.map(({value}) => value)}
             textToHighlight={cleanText}
             highlightTag={({children}) => <Tag color="blue">{children}</Tag>}
