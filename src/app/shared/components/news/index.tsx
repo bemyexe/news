@@ -1,9 +1,9 @@
 import {useState} from 'react';
+import Highlighter from 'react-highlight-words';
 import {CaretDownOutlined} from '@ant-design/icons';
-import {Button} from 'antd';
+import {Button, Tag} from 'antd';
 
 import {IData_SnippetNews} from '../../../../@types/news.dto';
-import {parseHighlight} from '../../../utils/parse-highlight';
 
 import {NewsInfo} from './news-info';
 import {NewsStats} from './news-stats';
@@ -32,7 +32,17 @@ export const News = ({
 
   const content = isABExpanded
     ? AB
-    : HIGHLIGHTS.map((highlight) => parseHighlight(highlight));
+    : HIGHLIGHTS.map((highlight) => {
+        const cleanText = highlight.replace(/<\/?kw>/g, '');
+        return (
+          <Highlighter
+            key={highlight}
+            searchWords={KW.map(({value}) => value)}
+            textToHighlight={cleanText}
+            highlightTag={({children}) => <Tag color="blue">{children}</Tag>}
+          />
+        );
+      });
 
   return (
     <div className="news-container">
